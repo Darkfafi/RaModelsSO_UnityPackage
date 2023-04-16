@@ -9,7 +9,7 @@ namespace RaModelsSO
 			get; private set;
 		}
 
-		public RaModelSOCollection DataSOCollection
+		public RaModelSOLocator Locator
 		{
 			get; private set;
 		}
@@ -19,11 +19,11 @@ namespace RaModelsSO
 			hideFlags = HideFlags.DontUnloadUnusedAsset | HideFlags.HideInHierarchy;
 		}
 
-		public void Init(RaModelSOCollection dataSOCollection)
+		public void Init(RaModelSOLocator locator)
 		{
 			if(!IsInitialized)
 			{
-				DataSOCollection = dataSOCollection;
+				Locator = locator;
 				IsInitialized = true;
 				OnInit();
 			}

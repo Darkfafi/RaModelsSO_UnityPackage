@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace RaModelsSO
 {
-	[CreateAssetMenu(menuName = "RaModelsSO/Create RaModelSOCollection")]
-	public class RaModelSOCollection : NestedSOCollectionBase<RaModelSOBase>, IDisposable
+	[CreateAssetMenu(menuName = "RaModelsSO/Create RaModelSOLocator")]
+	public class RaModelSOLocator : NestedSOCollectionBase<RaModelSOBase>, IDisposable
 	{
 		protected void Awake()
 		{
@@ -40,16 +40,16 @@ namespace RaModelsSO
 
 	private static void EditorDisposeCollections()
 	{
-		string[] guids = UnityEditor.AssetDatabase.FindAssets($"t:{nameof(RaModelSOCollection)}");
+		string[] guids = UnityEditor.AssetDatabase.FindAssets($"t:{nameof(RaModelSOLocator)}");
 		for (int i = 0; i < guids.Length; i++)
 		{
 			string pathToCollection = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[i]);
 			if (!string.IsNullOrEmpty(pathToCollection))
 			{
-				RaModelSOCollection collection = UnityEditor.AssetDatabase.LoadAssetAtPath<RaModelSOCollection>(pathToCollection);
-				if (collection != null)
+				RaModelSOLocator locator = UnityEditor.AssetDatabase.LoadAssetAtPath<RaModelSOLocator>(pathToCollection);
+				if (locator != null)
 				{
-					collection.Dispose();
+					locator.Dispose();
 				}
 			}
 		}
