@@ -1,3 +1,4 @@
+using System.Threading;
 using UnityEngine;
 
 namespace RaModelsSO
@@ -14,6 +15,10 @@ namespace RaModelsSO
 			get; private set;
 		}
 
+		private CancellationTokenSource _cancellationTokenSource;
+
+		public CancellationToken CancellationToken => _cancellationTokenSource != null ? _cancellationTokenSource.Token : new CancellationToken(canceled: true);
+
 		protected void Awake()
 		{
 			hideFlags = HideFlags.DontUnloadUnusedAsset | HideFlags.HideInHierarchy;
@@ -24,6 +29,7 @@ namespace RaModelsSO
 			if(!IsInitialized)
 			{
 				Locator = locator;
+				_cancellationTokenSource = new CancellationTokenSource();
 				IsInitialized = true;
 				OnInit();
 			}
@@ -35,6 +41,8 @@ namespace RaModelsSO
 			{
 				OnDeinit();
 				IsInitialized = false;
+				_cancellationTokenSource.Cancel();
+				_cancellationTokenSource = null;
 			}
 		}
 

@@ -18,42 +18,41 @@ namespace RaModelsSO
 		}
 
 #if UNITY_EDITOR
-
-	[UnityEditor.Callbacks.DidReloadScripts]
-	private static void SetupEditorListeners()
-	{
-		UnityEditor.EditorApplication.playModeStateChanged -= OnPlayModeChanged;
-		UnityEditor.EditorApplication.playModeStateChanged += OnPlayModeChanged;
-	}
-
-	private static void OnPlayModeChanged(UnityEditor.PlayModeStateChange state)
-	{
-		switch(state)
+		[UnityEditor.Callbacks.DidReloadScripts]
+		private static void SetupEditorListeners()
 		{
-			case UnityEditor.PlayModeStateChange.EnteredPlayMode:
-			case UnityEditor.PlayModeStateChange.ExitingPlayMode:
-				return;
+			UnityEditor.EditorApplication.playModeStateChanged -= OnPlayModeChanged;
+			UnityEditor.EditorApplication.playModeStateChanged += OnPlayModeChanged;
 		}
 
-		EditorDisposeCollections();
-	}
-
-	private static void EditorDisposeCollections()
-	{
-		string[] guids = UnityEditor.AssetDatabase.FindAssets($"t:{nameof(RaModelSOLocator)}");
-		for (int i = 0; i < guids.Length; i++)
+		private static void OnPlayModeChanged(UnityEditor.PlayModeStateChange state)
 		{
-			string pathToCollection = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[i]);
-			if (!string.IsNullOrEmpty(pathToCollection))
+			switch(state)
 			{
-				RaModelSOLocator locator = UnityEditor.AssetDatabase.LoadAssetAtPath<RaModelSOLocator>(pathToCollection);
-				if (locator != null)
+				case UnityEditor.PlayModeStateChange.EnteredPlayMode:
+				case UnityEditor.PlayModeStateChange.ExitingPlayMode:
+					return;
+			}
+
+			EditorDisposeCollections();
+		}
+
+		private static void EditorDisposeCollections()
+		{
+			string[] guids = UnityEditor.AssetDatabase.FindAssets($"t:{nameof(RaModelSOLocator)}");
+			for (int i = 0; i < guids.Length; i++)
+			{
+				string pathToCollection = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[i]);
+				if (!string.IsNullOrEmpty(pathToCollection))
 				{
-					locator.Dispose();
+					RaModelSOLocator locator = UnityEditor.AssetDatabase.LoadAssetAtPath<RaModelSOLocator>(pathToCollection);
+					if (locator != null)
+					{
+						locator.Dispose();
+					}
 				}
 			}
 		}
-	}
 #endif
 
 		public T GetModelSO<T>(Predicate<T> predicate = null)
