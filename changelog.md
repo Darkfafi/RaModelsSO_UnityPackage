@@ -1,5 +1,8 @@
 # Changelog RaModelsSO
 
+## v1.1.2 - 21/04/2025
+* Added CancellationToken support to RaModels
+
 ## v1.1.1 - 30/04/2023
 * Bumped NestedSOCollection Dependency to v1.4.0 (was v1.3.3)
 
