@@ -41,8 +41,12 @@ namespace RaModelsSO
 			{
 				OnDeinit();
 				IsInitialized = false;
-				_cancellationTokenSource.Cancel();
-				_cancellationTokenSource = null;
+
+				if (_cancellationTokenSource != null)
+				{
+					_cancellationTokenSource.Cancel();
+					_cancellationTokenSource = null;
+				}
 			}
 		}
 
