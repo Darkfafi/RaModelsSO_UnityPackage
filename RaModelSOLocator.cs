@@ -58,6 +58,13 @@ namespace RaModelsSO
 
 		public List<T> FindModelSOs<T>(Predicate<T> predicate = null)
 		{
+#if UNITY_EDITOR
+			if (!Application.isPlaying)
+			{
+				return default;
+			}
+#endif
+
 			predicate = predicate ?? new Predicate<T>((x) => true);
 			IReadOnlyList<RaModelSOBase> items = GetItems();
 			List<T> returnValues = new List<T>();
@@ -79,6 +86,13 @@ namespace RaModelsSO
 		public T GetModelSO<T>(Predicate<T> predicate = null)
 			where T : RaModelSOBase
 		{
+#if UNITY_EDITOR
+			if (!Application.isPlaying)
+			{
+				return default;
+			}
+#endif
+
 			predicate = predicate ?? new Predicate<T>((x) => true);
 			IReadOnlyList<RaModelSOBase> items = GetItems();
 			for (int i = 0; i < items.Count; i++)
